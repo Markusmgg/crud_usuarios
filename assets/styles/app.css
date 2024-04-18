@@ -1,0 +1,88 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+}
+
+/* Estilos para la tabla */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+}
+
+/* Estilos para las celdas de la tabla */
+th, td {
+    padding: 12px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+/* Estilos para la fila de encabezados */
+th {
+    background-color: #f2f2f2;
+}
+
+/* Estilos para el campo de búsqueda DataTables */
+.dt-search {
+    text-align: right;
+    padding: 10px;
+}
+
+/* Estilos para los botones de DataTables */
+.dt-buttons {
+    text-align: center;
+    margin-bottom: 20px;
+    background-color: rgba(10, 78, 109, 0.1);
+}
+
+/* Estilos para la información de DataTables */
+.dt-info {
+    padding-top: 12px;
+    text-align: center;
+}
+
+/* Estilos para la paginación de DataTables */
+.dt-paging {
+    padding-top: 6px;
+    text-align: center;
+}
+
+/* Estilos para el contenedor principal */
+.container {
+    max-width: 1200px; /* Ancho máximo del contenido */
+    margin: auto;
+    padding: 20px;
+    background-color: #158d39;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Sombra suave */
+}
+
+/* Estilos para el formulario de inicio de sesión */
+.form-signin {
+    width: 100%;
+    max-width: 400px;
+    margin: auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Sombra suave */
+}
+
+/* Estilos para los botones */
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    margin-bottom: 10px;
+    background-color: #007bff;
+    color: #fff;
+    text-decoration: none;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn:hover {
+    background-color: #0056b3;
+}

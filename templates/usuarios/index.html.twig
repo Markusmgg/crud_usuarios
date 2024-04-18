@@ -1,0 +1,128 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Usuarios {% endblock %}
+
+{% block body %}
+    <h1>Tabla Usuarios</h1>
+
+    <table class="table" id="miTabla">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Dni</th>
+                <th>Nombre</th>
+                <th>Apellidos</th>
+                <th>Ciudad</th>
+                <th>Dirección</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for usuario in usuarios %}
+            <tr>
+                <td>{{ usuario.id }}</td>
+                <td>{{ usuario.dni }}</td>
+                <td>{{ usuario.nombre }}</td>
+                <td>{{ usuario.apellidos }}</td>
+                <td>{{ usuario.ciudad }}</td>
+                <td>{{ usuario.direccion }}</td>
+                <td>
+                    <a href="{{ path('app_usuarios_show', {'id': usuario.id}) }}">show</a>
+                    <a href="{{ path('app_usuarios_edit', {'id': usuario.id}) }}">edit</a>
+                    <form class="delete-form" method="post" action="{{ path('app_usuarios_delete', {'id': usuario.id}) }}" data-id="{{ usuario.id }}">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ usuario.id) }}">
+                        <button class="btn btn-danger btn-delete">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_usuarios_new') }}">Create new</a>
+    <a href="{{ path('app_logout') }}">Cerrar sesión</a>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <!-- Inicialización de DataTables -->
+    <script>
+        $(document).ready(function() {
+            // Inicialización de DataTable con botones de exportación
+            var table = $('#miTabla').DataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                    'excel', 'pdf', 'print'
+                ]
+            });
+
+            table.buttons().container().appendTo($('.col-sm-6:eq(0)', table.table().container()));
+
+            // Manejar el clic en el botón de eliminar
+            $('.btn-delete').on('click', function(e) {
+                e.preventDefault();
+                var form = $(this).closest('form');
+                var usuarioId = form.data('id');
+                var confirmDelete = confirm('¿Estás seguro de que deseas eliminar este usuario?');
+
+                if (confirmDelete) {
+                    $.ajax({
+                        url: form.attr('action'),
+                        method: 'POST',
+                        data: form.serialize(),
+                        success: function(response) {
+                            // Actualizar la tabla después de eliminar el usuario
+                            form.closest('tr').remove();
+                        },
+                        error: function(xhr, status, error) {
+                            alert('Error al eliminar el usuario');
+                        }
+                    });
+                }
+            });
+
+            // Función para cargar y mostrar el contenido del usuario en un modal
+            function mostrarUsuario(id) {
+                $.ajax({
+                    url: `/usuarios/${id}/show_ajax`,
+                    method: 'GET',
+                    success: function(response) {
+                        // Mostrar el contenido del usuario en un modal o en una sección específica de la página
+                        console.log(response);
+                    },
+                    error: function(xhr, status, error) {
+                        alert('Error al cargar la información del usuario');
+                    }
+                });
+            }
+
+            // Función para cargar y mostrar el formulario de edición del usuario en un modal
+            function editarUsuarioAjax(id) {
+                $.ajax({
+                    url: `/usuarios/${id}/edit_ajax`,
+                    method: 'GET',
+                    success: function(response) {
+                        // Mostrar el formulario de edición en un modal o en una sección de la página
+                        $('#modal-content').html(response.html);
+                        $('#modal').modal('show');
+                    },
+                    error: function(xhr, status, error) {
+                        alert('Error al cargar el formulario de edición del usuario');
+                    }
+                });
+            }
+
+            // Manejar el clic en el botón de editar usuario
+            $('.editar-usuario').on('click', function(e) {
+                e.preventDefault();
+                var id = $(this).data('id');
+                editarUsuarioAjax(id);
+            });
+        });
+    </script>
+{% endblock %}

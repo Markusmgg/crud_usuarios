@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Welcome!{% endblock %}</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
+    
+    {% block stylesheets %}
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
+    {% endblock %}
+
+    {% block javascripts %}
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/v/dt/dt-2.0.3/datatables.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+        <script src="https://cdn.datatables.net/v/dt/jszip-3.10.1/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.js"></script>
+
+        <script>
+            $(document).ready(function() {
+                // Manejar el clic en el botón de eliminar
+                $('.btn-delete').on('click', function(e) {
+                    e.preventDefault();
+                    var form = $(this).closest('form');
+                    var usuarioId = form.data('id');
+                    var confirmDelete = confirm('¿Estás seguro de que deseas eliminar este usuario?');
+
+                    if (confirmDelete) {
+                        $.ajax({
+                            url: form.attr('action'),
+                            method: 'POST',
+                            data: form.serialize(),
+                            success: function(response) {
+                                // Actualizar la tabla después de eliminar el usuario
+                                form.closest('tr').remove();
+                            },
+                            error: function(xhr, status, error) {
+                                alert('Error al eliminar el usuario');
+                            }
+                        });
+                    }
+                });
+
+                // Manejar el clic en el botón de mostrar usuario
+                $('.btn-show').on('click', function(e) {
+                    e.preventDefault();
+                    var url = $(this).attr('href');
+
+                    $.ajax({
+                        url: url,
+                        method: 'GET',
+                        success: function(response) {
+                            // Aquí puedes mostrar los detalles del usuario en un modal o en algún otro lugar de la página
+                            console.log(response);
+                        },
+                        error: function(xhr, status, error) {
+                            alert('Error al cargar los detalles del usuario');
+                        }
+                    });
+                });
+
+                // Manejar el clic en el botón de editar usuario
+                $('.btn-edit').on('click', function(e) {
+                    e.preventDefault();
+                    var url = $(this).attr('href');
+
+                    $.ajax({
+                        url: url,
+                        method: 'GET',
+                        success: function(response) {
+                            // Aquí puedes cargar el formulario de edición del usuario en un modal o en algún otro lugar de la página
+                            console.log(response);
+                        },
+                        error: function(xhr, status, error) {
+                            alert('Error al cargar el formulario de edición del usuario');
+                        }
+                    });
+                });
+            });
+        </script>
+    {% endblock %}
+</head>
+<body>
+    {% block body %}{% endblock %}
+</body>
+</html>
