@@ -4,10 +4,6 @@
 
 {% block body %}
 <form method="post">
-    {% if error %}
-        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-    {% endif %}
-
     {% if app.user %}
         <div class="mb-3">
             You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
@@ -16,7 +12,7 @@
 
     <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
     <label for="inputEmail">Email</label>
-    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus></br>
+    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" autofocus></br>
     <label for="inputPassword">Password</label>
     <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required></br>
 
@@ -27,7 +23,11 @@
     <button class="btn btn-lg btn-primary" type="submit">
         Sign in
     </button>
-   <button onclick="window.location.href='{{ path('register') }}'" class="btn btn-primary">Register</button>
+    <button onclick="window.location.href='{{ path('register') }}'" class="btn btn-primary" type="button">Register</button>
+
+    {% if error %}
+        <div class="alert alert-danger mt-3">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+    {% endif %}
 </form>
 
 {% endblock %}

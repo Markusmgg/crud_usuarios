@@ -15,11 +15,6 @@ register:
 app_logout:
     path: /logout
 
-app_usuarios_show:
-    path: '/usuarios/{id}'
-    controller: 'App\Controller\UsuariosController::show'
 
-app_usuarios_edit:
-    path: '/usuarios/editar/{id}'
-    controller: 'App\Controller\UsuariosController::edit'
+
     

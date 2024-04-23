@@ -12,7 +12,7 @@
         {{ form_row(registrationForm.plainPassword) }}
         {{ form_row(registrationForm.agreeTerms) }}
 
-        <button type="submit">Register</button></br>
+        <button type="submit" class="btn btn-primary">Register</button></br>
          <button type="button" onclick="window.location.href='{{ path('app_login') }}'" class="btn btn-primary">Back to Login</button>
     {{ form_end(registrationForm) }}
 
