@@ -15,6 +15,9 @@ register:
 app_logout:
     path: /logout
 
-
+app_usuarios_new:
+    path: /usuarios/new
+    controller: App\Controller\UsuariosController::new
+    methods: [GET, POST]
 
     

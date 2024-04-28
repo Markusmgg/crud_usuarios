@@ -1,11 +1,11 @@
-{% extends 'base.html.twig' %}
+{{ form_start(form) }}
+    {# Otros campos del formulario... #}
 
-{% block title %}New Usuarios{% endblock %}
+    <div class="form-group">
+        {{ form_label(form.ciudad) }}
+        {{ form_widget(form.ciudad, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.ciudad) }}
+    </div>
 
-{% block body %}
-    <h1>Create new Usuarios</h1>
-
-    {{ include('usuarios/_form.html.twig') }}
-
-    <a href="{{ path('app_usuarios_index') }}">back to list</a>
-{% endblock %}
+    <button type="submit" class="btn btn-primary">Crear Usuario</button>
+{{ form_end(form) }}

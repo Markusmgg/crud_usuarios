@@ -3,10 +3,11 @@
 namespace App\Form;
 
 use App\Entity\Usuarios;
+use App\Entity\Ciudad; 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 class Usuarios1Type extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -15,9 +16,12 @@ class Usuarios1Type extends AbstractType
             ->add('dni')
             ->add('nombre')
             ->add('apellidos')
-            ->add('ciudad')
-            ->add('direccion')
-        ;
+            ->add('ciudad', EntityType::class, [ 
+                'class' => Ciudad::class,
+                'choice_label' => 'nombre', 
+                'attr' => ['class' => 'form-control'],
+            ])
+            ->add('direccion');
     }
 
     public function configureOptions(OptionsResolver $resolver): void

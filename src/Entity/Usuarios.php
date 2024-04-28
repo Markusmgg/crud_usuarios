@@ -22,8 +22,23 @@ class Usuarios
     #[ORM\Column(length: 60)]
     private ?string $apellidos = null;
 
-    #[ORM\Column(length: 25)]
-    private ?string $ciudad = null;
+    /**
+     * @ORM\ManyToOne(targetEntity=Ciudad::class)
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $ciudad;
+
+    public function getCiudad(): ?Ciudad
+    {
+        return $this->ciudad;
+    }
+
+    public function setCiudad(?Ciudad $ciudad): self
+    {
+        $this->ciudad = $ciudad;
+
+        return $this;
+    }
 
     #[ORM\Column(type: "boolean")]
     private ?bool $estado = true;
@@ -85,19 +100,6 @@ class Usuarios
         return $this;
     }
 
-    public function getCiudad(): ?string
-    {
-        return $this->ciudad;
-    }
-
-    public function setCiudad(string $ciudad): static
-    {
-        $this->ciudad = $ciudad;
-
-        return $this;
-    }
-
-     // Getter y setter para $estado
      public function getEstado(): ?bool
      {
          return $this->estado;

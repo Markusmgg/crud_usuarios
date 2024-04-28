@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
-use Symfony\Component\Validator\Constraints as Assert;
+use App\Entity\Ciudad;
 #[Route('/usuarios')]
 class UsuariosController extends AbstractController
 {
@@ -24,35 +24,33 @@ class UsuariosController extends AbstractController
             'usuarios' => $usuariosRepository->findBy(['estado' => true])
         ]);
     }
-
-
+    
     #[Route('/new', name: 'app_usuarios_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager, ValidatorInterface $validator): Response
-    {
-        $usuario = new Usuarios();
-        $form = $this->createForm(Usuarios1Type::class, $usuario);
-        $form->handleRequest($request);
+public function new(Request $request, EntityManagerInterface $entityManager): Response
+{
+    $usuario = new Usuarios();
+    $form = $this->createForm(Usuarios1Type::class, $usuario);
+    
+    $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-          
-            $dni = $usuario->getDni();
-            if (!$this->isValidDniFormat($dni)) {
-                $this->addFlash('error', 'El formato del DNI no es válido.');
-                return $this->redirectToRoute('app_usuarios_new');
-            }
-
-           
-            $entityManager->persist($usuario);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('app_usuarios_index', [], Response::HTTP_SEE_OTHER);
+    if ($form->isSubmitted() && $form->isValid()) {
+        $dni = $usuario->getDni();
+        if (!$this->isValidDniFormat($dni)) {
+            $this->addFlash('error', 'El formato del DNI no es válido.');
+            return $this->redirectToRoute('app_usuarios_new');
         }
 
-        return $this->render('usuarios/new.html.twig', [
-            'usuario' => $usuario,
-            'form' => $form->createView(),
-        ]);
+        $entityManager->persist($usuario);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_usuarios_index', [], Response::HTTP_SEE_OTHER);
     }
+
+    return $this->render('usuarios/new.html.twig', [
+        'usuario' => $usuario,
+        'form' => $form->createView(),
+    ]);
+}
 
     private function isValidDniFormat($dni): bool
     {
