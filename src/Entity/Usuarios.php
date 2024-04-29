@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\UsuariosRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\Ciudades;
 
 #[ORM\Entity(repositoryClass: UsuariosRepository::class)]
 class Usuarios
@@ -22,20 +23,17 @@ class Usuarios
     #[ORM\Column(length: 60)]
     private ?string $apellidos = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Ciudad::class)
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $ciudad;
+    #[ORM\ManyToOne(targetEntity: Ciudades::Class)]
+    private ?Ciudades $ciudades = null;
 
-    public function getCiudad(): ?Ciudad
+    public function getCiudades(): ?Ciudades
     {
-        return $this->ciudad;
+        return $this->ciudades;
     }
 
-    public function setCiudad(?Ciudad $ciudad): self
+    public function setCiudades(?Ciudades $ciudades): self
     {
-        $this->ciudad = $ciudad;
+        $this->ciudades = $ciudades;
 
         return $this;
     }

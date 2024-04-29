@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
-use App\Entity\Ciudad;
+use App\Entity\Ciudades;
 #[Route('/usuarios')]
 class UsuariosController extends AbstractController
 {
@@ -26,36 +26,28 @@ class UsuariosController extends AbstractController
     }
     
     #[Route('/new', name: 'app_usuarios_new', methods: ['GET', 'POST'])]
-public function new(Request $request, EntityManagerInterface $entityManager): Response
-{
-    $usuario = new Usuarios();
-    $form = $this->createForm(Usuarios1Type::class, $usuario);
-    
-    $form->handleRequest($request);
-
-    if ($form->isSubmitted() && $form->isValid()) {
-        $dni = $usuario->getDni();
-        if (!$this->isValidDniFormat($dni)) {
-            $this->addFlash('error', 'El formato del DNI no es válido.');
-            return $this->redirectToRoute('app_usuarios_new');
+    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $usuario = new Usuarios();
+        $form = $this->createForm(Usuarios1Type::class, $usuario);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($usuario);
+            $entityManager->flush();
+            return $this->redirectToRoute('app_usuarios_index', [], Response::HTTP_SEE_OTHER);
         }
-
-        $entityManager->persist($usuario);
-        $entityManager->flush();
-
-        return $this->redirectToRoute('app_usuarios_index', [], Response::HTTP_SEE_OTHER);
-    }
-
+        return $this->render('usuarios/new.html.twig', [
+            'usuario' => $usuario,
+            'form' => $form,
+        ]);
+    
     return $this->render('usuarios/new.html.twig', [
         'usuario' => $usuario,
         'form' => $form->createView(),
     ]);
 }
 
-    private function isValidDniFormat($dni): bool
-    {
-        return preg_match('/^\d{8}[A-Za-z]$/', $dni) === 1;
-    }
+ 
 
     #[Route('/{id}', name: 'app_usuarios_show', methods: ['GET'])]
     public function show(Usuarios $usuario): Response

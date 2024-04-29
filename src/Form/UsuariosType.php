@@ -8,7 +8,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType; // Importa CheckboxType
-use App\Entity\Ciudad;
+use App\Entity\Ciudades;
 
 class UsuariosType extends AbstractType
 {
@@ -18,8 +18,8 @@ class UsuariosType extends AbstractType
             ->add('dni')
             ->add('nombre')
             ->add('apellidos')
-            ->add('ciudad', EntityType::class, [
-                'class' => Ciudad::class,
+            ->add('ciudades', EntityType::class, [
+                'class' => Ciudades::class,
                 'choice_label' => 'nombre', 
             ])
             ->add('estado', CheckboxType::class, [ // Cambia a CheckboxType
