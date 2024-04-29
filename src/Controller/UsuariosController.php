@@ -36,10 +36,7 @@ class UsuariosController extends AbstractController
             $entityManager->flush();
             return $this->redirectToRoute('app_usuarios_index', [], Response::HTTP_SEE_OTHER);
         }
-        return $this->render('usuarios/new.html.twig', [
-            'usuario' => $usuario,
-            'form' => $form,
-        ]);
+       
     
     return $this->render('usuarios/new.html.twig', [
         'usuario' => $usuario,

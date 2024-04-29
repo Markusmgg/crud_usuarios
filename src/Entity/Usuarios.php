@@ -23,20 +23,7 @@ class Usuarios
     #[ORM\Column(length: 60)]
     private ?string $apellidos = null;
 
-    #[ORM\ManyToOne(targetEntity: Ciudades::Class)]
-    private ?Ciudades $ciudades = null;
-
-    public function getCiudades(): ?Ciudades
-    {
-        return $this->ciudades;
-    }
-
-    public function setCiudades(?Ciudades $ciudades): self
-    {
-        $this->ciudades = $ciudades;
-
-        return $this;
-    }
+   
 
     #[ORM\Column(type: "boolean")]
     private ?bool $estado = true;
@@ -98,6 +85,20 @@ class Usuarios
         return $this;
     }
 
+    #[ORM\ManyToOne(targetEntity: Ciudades::Class)]
+    private ?Ciudades $ciudades = null;
+
+    public function getCiudades(): ?Ciudades
+    {
+        return $this->ciudades;
+    }
+
+    public function setCiudades(?Ciudades $ciudades): self
+    {
+        $this->ciudades = $ciudades;
+
+        return $this;
+    }
      public function getEstado(): ?bool
      {
          return $this->estado;

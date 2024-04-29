@@ -3,7 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Usuarios;
-use App\Entity\Ciudad; 
+use App\Entity\Ciudades; 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -16,8 +16,8 @@ class Usuarios1Type extends AbstractType
             ->add('dni')
             ->add('nombre')
             ->add('apellidos')
-            ->add('ciudad', EntityType::class, [ 
-                'class' => Ciudad::class,
+            ->add('ciudades', EntityType::class, [ 
+                'class' => Ciudades::class,
                 'choice_label' => 'nombre', 
                 'attr' => ['class' => 'form-control'],
             ])
